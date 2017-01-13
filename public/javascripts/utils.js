@@ -2,7 +2,7 @@ $('#intro').hide()
 //get weather from geolocation
 
 function getWeather(lat, lon) {
-  const baseURL = 'https://api.openweathermap.org/data/2.5/forecast?';
+  const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?';
   let url = baseURL + 'lat=' + lat + '&lon=' + lon + '&appid='+ apiKey + "&units=imperial&mode=json";
 
   $.get(url).then((data) => {
@@ -65,7 +65,7 @@ function dataToScreen(data) {
     )
 
   for (var i = 0; i < data.length; i++) {
-    let $img = $('<img>', {'src': 'https://openweathermap.org/img/w/' + data[i].forcast.icon + '.png'});
+    let $img = $('<img>', {'src': 'http://openweathermap.org/img/w/' + data[i].forcast.icon + '.png'});
     let $time = data[i].forcast.time;
     let $reportByTime = $('<div>', {'class': 'col md3 by-time'})
     let $timeContainer = $('<div>', {'class': 'row time'})
