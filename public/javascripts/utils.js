@@ -1,45 +1,5 @@
 $('#intro').hide()
 //get weather from geolocation
-function locationPromise() {
-  return new Promise(function(resolve, reject) {
-    console.log("retreiving position.....");
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  })
-}
-
-locationPromise()
-  .then((data)=> {
-    let coords = [];
-    coords.push({"lat": data.coords.latitude})
-    coords.push({"lon": data.coords.longitude})
-    return coords;
-  })
-  .then((data) => {
-    getWeather(data[0].lat, data[1].lon);
-  })
-  .catch((err) => {
-    console.log(err);
-  })
-
-// find city and state from gps coordinates
-function displayLocation(lat,lon){
-    let positions = [] //empty array to hold city, state
-    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lon+'&sensor=true&ssl=true';
-    return $.getJSON(url).then(function(data) {
-
-      var addressComponents = data.results[0].address_components;
-      for(i=0;i<addressComponents.length;i++){
-        var types = addressComponents[i].types;
-        if(types=="locality,political"){
-          positions.push(addressComponents[i].long_name);
-        }
-        if(types=="administrative_area_level_1,political"){
-          positions.push(addressComponents[i].long_name);
-        }
-      }
-      return(positions);
-    })
-};
 
 function getWeather(lat, lon) {
   const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?';
@@ -53,13 +13,14 @@ function getWeather(lat, lon) {
 };
 
 function allocateData(data) {
-  $('#loading').hide()
-  $('#intro').show()
-
-  let forcast = [];
 
   let city = data["city"].name;
   let country = data["city"].country;
+
+  $('#loading').hide()
+  $('#intro').show().append("for " + city)
+
+  let forcast = [];
 
   let counter = 1;
 
@@ -95,35 +56,33 @@ function allocateData(data) {
 };
 
 function dataToScreen(data) {
-
   let $newDay = $('<div>', {'id': 'opaque', 'class': 'card-panel row'});
-  let $date = $('<div>', {'class': 'row', 'style': 'font-family: Playfair Display; font-weight: 700'});
+  let $date = $('<div>', {'class': 'row date'});
   let $container = $('<div>', {'id': 'all-weather', 'class': 'row'})
 
-    $('#weatherResults').append(
-        $newDay.append($date.append(data[0].date)).append($container)
-      )
+  $('#weatherResults').append(
+      $newDay.append($date.append(data[0].date)).append($container)
+    )
 
   for (var i = 0; i < data.length; i++) {
-      let $img = $('<img>', {'src': 'http://openweathermap.org/img/w/' + data[i].forcast.icon + '.png'});
-      let $time = data[i].forcast.time;
-      let $reportByTime = $('<div>', {'class': 'col md3 by-time'})
-      let $timeContainer = $('<div>', {'class': 'row time'})
-      let $imgContainer = $('<div>', {'id': 'row', 'class': 'row'})
-      let $description = "report: " + data[i].forcast.description
-      let $tempContainer = $('<div>', {'class': 'row'})
-      let $temp = "temp: " + data[i].forcast.temp + " ºF"
+    let $img = $('<img>', {'src': 'http://openweathermap.org/img/w/' + data[i].forcast.icon + '.png'});
+    let $time = data[i].forcast.time;
+    let $reportByTime = $('<div>', {'class': 'col md3 by-time'})
+    let $timeContainer = $('<div>', {'class': 'row time'})
+    let $imgContainer = $('<div>', {'id': 'row', 'class': 'row'})
+    let $description = data[i].forcast.description
+    let $tempContainer = $('<div>', {'class': 'row'})
+    let $temp = "temp:  " + data[i].forcast.temp + " ºF"
 
-        $container.append(
-          $reportByTime.append(
-          $timeContainer.append($time)).append(
-          $imgContainer.append($img)).append($description).append($tempContainer.append($temp))
-        )
+    $container.append(
+      $reportByTime.append(
+      $timeContainer.append($time)).append(
+      $imgContainer.append($img)).append($description).append($tempContainer.append($temp))
+    )
   }
 };
 
 function eachDay(data) {
-  // var masterData = [];
   var day1 = [];
   var day2 = [];
   var day3 = [];
@@ -132,19 +91,14 @@ function eachDay(data) {
 
   for(var i = 0; i < data.length; i++) {
     if(data[i].day === 1) {
-      // dataToScreen(data[i])
       day1.push(data[i]);
     } else if(data[i].day === 2) {
-      // dataToScreen(data[i])
       day2.push(data[i]);
     } else if(data[i].day === 3) {
-      // dataToScreen(data[i])
       day3.push(data[i]);
     } else if(data[i].day === 4) {
-      // dataToScreen(data[i])
       day4.push(data[i]);
     } else {
-      // dataToScreen(data[i])
       day5.push(data[i]);
     }
   }
@@ -161,10 +115,6 @@ function convertDate(unix) {
   var year = a.getFullYear()
   var month = months[a.getMonth()];
   var date = a.getDate();
-  var h = a.getHours();
-  var amPm = h >= 12 ? "pm" : "am";
-  var hour = ((h + 11) % 12 + 1);
-  var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
   var date = month + ' ' + date + ' ' + year;
   return date;
 };
