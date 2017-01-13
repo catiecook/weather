@@ -1,7 +1,5 @@
-
-//get weather from geolocation
 $('#intro').hide()
-
+//get weather from geolocation
 function locationPromise() {
   return new Promise(function(resolve, reject) {
     console.log("retreiving position.....");
@@ -11,13 +9,10 @@ function locationPromise() {
 
 locationPromise()
   .then((data)=> {
-    console.log("first part", data);
     let coords = [];
-
     coords.push({"lat": data.coords.latitude})
     coords.push({"lon": data.coords.longitude})
     return coords;
-    // return displayLocation(lat, lon);
   })
   .then((data) => {
     getWeather(data[0].lat, data[1].lon);
@@ -51,37 +46,125 @@ function getWeather(lat, lon) {
   let url = baseURL + 'lat=' + lat + '&lon=' + lon + '&appid='+ apiKey + "&units=imperial&mode=json";
 
   $.get(url).then((data) => {
+    console.log(url);
     allocateData(data)
+  }).catch((err) => {
+    console.log(err);
   })
 };
 
 function allocateData(data) {
   $('#loading').hide()
   $('#intro').show()
+
   let forcast = [];
 
   let city = data["city"].name;
   let country = data["city"].country;
 
+  let counter = 1;
+
+
   for(let i = 0; i < data["list"].length-1; i++) {
 
-    var dateTime = convertTime(data['list'][i]['dt']);
+    let date = convertDate(data['list'][i]['dt']);
+    let nextDate = convertDate(data['list'][i+1]['dt']);
+    let time = convertTime(data['list'][i]['dt']);
 
-    forcast.push(
-      {
-        'city': city,
-        'country': country,
-        'date': dateTime,
-        'temp': data["list"][i]["main"]["temp"],
-        'status': data["list"][i]["weather"][0]["main"],
-        'description': data["list"][i]["weather"][0]["description"],
-        'icon': data["list"][i]["weather"][0]["icon"]
-      }
-    )
+    if(date === nextDate){
+      forcast.push(
+        { 'city': city,
+          'country': country,
+           'day': counter,
+           'date': date,
+           'forcast':
+          {
+            'time': time,
+            'temp': data["list"][i]["main"]["temp"],
+            'status': data["list"][i]["weather"][0]["main"],
+            'description': data["list"][i]["weather"][0]["description"],
+            'icon': data["list"][i]["weather"][0]["icon"]
+          }
+        }
+      )
+    } else {
+      counter++;
+    }
   }
-console.log(forcast.length);
- dataToScreen(forcast)
-}
+  Promise.all(forcast).then((data) => {
+    eachDay(data)
+  })
+};
+
+function dataToScreen(data) {
+  console.log(data.length);
+  let $newDay = $('<div>', {'class': 'card-panel'});
+  let $date = $('<div>', {'class': 'row'});
+
+    $('#weatherResults').append(
+        $newDay.append($date.append(data[0].date))
+      )
+
+  // console.log("here", data.date);
+  // console.log("here", data.forcast);
+  for (var i = 0; i < data.length; i++) {
+      let $img = $('<img>', {'src': 'http://openweathermap.org/img/w/' + data[i].forcast.icon + '.png'});
+      let $time = data[i].forcast.time;
+      let $reportByTime = $('<div>', {'class': 'md2'})
+
+        $newDay.append(
+          $reportByTime.append($img).append($time)
+        )
+  }
+};
+
+function eachDay(data) {
+  // var masterData = [];
+  var day1 = [];
+  var day2 = [];
+  var day3 = [];
+  var day4 = [];
+  var day5 = [];
+
+  for(var i = 0; i < data.length; i++) {
+    if(data[i].day === 1) {
+      // dataToScreen(data[i])
+      day1.push(data[i]);
+    } else if(data[i].day === 2) {
+      // dataToScreen(data[i])
+      day2.push(data[i]);
+    } else if(data[i].day === 3) {
+      // dataToScreen(data[i])
+      day3.push(data[i]);
+    } else if(data[i].day === 4) {
+      // dataToScreen(data[i])
+      day4.push(data[i]);
+    } else {
+      // dataToScreen(data[i])
+      day5.push(data[i]);
+    }
+  }
+  dataToScreen(day1);
+  dataToScreen(day2);
+  dataToScreen(day3);
+  dataToScreen(day4);
+  dataToScreen(day5);
+};
+
+function convertDate(unix) {
+  var a = new Date(unix * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear()
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var h = a.getHours();
+  var amPm = h >= 12 ? "PM" : "AM";
+  var hour = ((h + 11) % 12 + 1);
+  var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
+
+  var date = month + ' ' + date + ' ' + year;
+  return date;
+};
 
 function convertTime(unix) {
   var a = new Date(unix * 1000);
@@ -90,33 +173,10 @@ function convertTime(unix) {
   var month = months[a.getMonth()];
   var date = a.getDate();
   var h = a.getHours();
-  var amPm = hour >= 12 ? "PM" : "AM";
+  var amPm = h >= 12 ? "PM" : "AM";
   var hour = ((h + 11) % 12 + 1);
   var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
 
-  var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ' ' + amPm;
+  var time =  hour + ':' + min + amPm;
   return time;
-}
-
-function dataToScreen(data) {
-  for (var i = 0; i < data.length; i++) {
-    let $newDay = $('<div>', {'class': 'card-panel'})
-    let $date = $('<div>', {'class': 'row'})
-    let $info = $('<div>', {'class': 'col md4'})
-    let $img = $('<img>', {'src': 'http://openweathermap.org/img/w/' + data[i].icon + '.png'})
-
-
-      $('#weatherResults').append(
-        $newDay.append(
-          $date.append(
-            data[i].date
-          )).append($info.append(
-            $img)
-            .append(
-              data[i].description)
-            )
-      )
-
-  }
-
-}
+};

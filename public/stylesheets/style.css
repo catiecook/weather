@@ -20,3 +20,7 @@ a {
 .title {
   font-family: 'Playfair Display', serif;
 }
+
+img {
+  width: 20%;
+}
