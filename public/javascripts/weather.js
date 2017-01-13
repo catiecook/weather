@@ -96,7 +96,7 @@ function allocateData(data) {
 
 function dataToScreen(data) {
 
-  let $newDay = $('<div>', {'class': 'card-panel row'});
+  let $newDay = $('<div>', {'id': 'opaque', 'class': 'card-panel row'});
   let $date = $('<div>', {'class': 'row', 'style': 'font-family: Playfair Display; font-weight: 700'});
   let $container = $('<div>', {'id': 'all-weather', 'class': 'row'})
 
@@ -110,7 +110,7 @@ function dataToScreen(data) {
       let $reportByTime = $('<div>', {'class': 'col md3 by-time'})
       let $timeContainer = $('<div>', {'class': 'row time'})
       let $imgContainer = $('<div>', {'id': 'row', 'class': 'row'})
-      let $description = data[i].forcast.description
+      let $description = "report: " + data[i].forcast.description
       let $tempContainer = $('<div>', {'class': 'row'})
       let $temp = "temp: " + data[i].forcast.temp + " ºF"
 

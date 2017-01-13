@@ -17,17 +17,9 @@ a {
   color: black;
 }
 
-.title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8em;
-}
-
-.by-time {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  align-content: center;
-  margin: 3%;
+img {
+  padding: 0;
+  margin: 0;
 }
 
 #all-weather {
@@ -41,9 +33,28 @@ a {
   margin-bottom: 0px;
 }
 
-img {
-  padding: 0;
-  margin: 0;
+#transparent {
+  background: rgba(255, 255, 255);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+#opaque {
+  background: rgba(255, 255, 255);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+.by-time {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-content: center;
+  margin: 3%;
 }
 
 .time {
