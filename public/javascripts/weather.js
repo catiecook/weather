@@ -46,7 +46,6 @@ function getWeather(lat, lon) {
   let url = baseURL + 'lat=' + lat + '&lon=' + lon + '&appid='+ apiKey + "&units=imperial&mode=json";
 
   $.get(url).then((data) => {
-    console.log(url);
     allocateData(data)
   }).catch((err) => {
     console.log(err);
@@ -63,7 +62,6 @@ function allocateData(data) {
   let country = data["city"].country;
 
   let counter = 1;
-
 
   for(let i = 0; i < data["list"].length-1; i++) {
 
@@ -97,23 +95,29 @@ function allocateData(data) {
 };
 
 function dataToScreen(data) {
-  console.log(data.length);
-  let $newDay = $('<div>', {'class': 'card-panel'});
-  let $date = $('<div>', {'class': 'row'});
+
+  let $newDay = $('<div>', {'class': 'card-panel row'});
+  let $date = $('<div>', {'class': 'row', 'style': 'font-family: Playfair Display; font-weight: 700'});
+  let $container = $('<div>', {'id': 'all-weather', 'class': 'row'})
 
     $('#weatherResults').append(
-        $newDay.append($date.append(data[0].date))
+        $newDay.append($date.append(data[0].date)).append($container)
       )
 
-  // console.log("here", data.date);
-  // console.log("here", data.forcast);
   for (var i = 0; i < data.length; i++) {
       let $img = $('<img>', {'src': 'http://openweathermap.org/img/w/' + data[i].forcast.icon + '.png'});
       let $time = data[i].forcast.time;
-      let $reportByTime = $('<div>', {'class': 'md2'})
+      let $reportByTime = $('<div>', {'class': 'col md3 by-time'})
+      let $timeContainer = $('<div>', {'class': 'row time'})
+      let $imgContainer = $('<div>', {'id': 'row', 'class': 'row'})
+      let $description = data[i].forcast.description
+      let $tempContainer = $('<div>', {'class': 'row'})
+      let $temp = "temp: " + data[i].forcast.temp + " ºF"
 
-        $newDay.append(
-          $reportByTime.append($img).append($time)
+        $container.append(
+          $reportByTime.append(
+          $timeContainer.append($time)).append(
+          $imgContainer.append($img)).append($description).append($tempContainer.append($temp))
         )
   }
 };
@@ -158,22 +162,17 @@ function convertDate(unix) {
   var month = months[a.getMonth()];
   var date = a.getDate();
   var h = a.getHours();
-  var amPm = h >= 12 ? "PM" : "AM";
+  var amPm = h >= 12 ? "pm" : "am";
   var hour = ((h + 11) % 12 + 1);
   var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
-
   var date = month + ' ' + date + ' ' + year;
   return date;
 };
 
 function convertTime(unix) {
   var a = new Date(unix * 1000);
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var year = a.getFullYear()
-  var month = months[a.getMonth()];
-  var date = a.getDate();
   var h = a.getHours();
-  var amPm = h >= 12 ? "PM" : "AM";
+  var amPm = h >= 12 ? "pm" : "am";
   var hour = ((h + 11) % 12 + 1);
   var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
 

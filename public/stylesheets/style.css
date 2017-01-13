@@ -19,8 +19,33 @@ a {
 
 .title {
   font-family: 'Playfair Display', serif;
+  font-size: 1.8em;
+}
+
+.by-time {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-content: center;
+  margin: 3%;
+}
+
+#all-weather {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+#row {
+  margin-bottom: 0px;
 }
 
 img {
-  width: 20%;
+  padding: 0;
+  margin: 0;
+}
+
+.time {
+  font-weight: bold;
 }
