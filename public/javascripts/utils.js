@@ -2,7 +2,7 @@ $('#intro').hide()
 //get weather from geolocation
 
 function getWeather(lat, lon) {
-  const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?';
+  const baseURL = 'https://api.openweathermap.org/data/2.5/forecast?';
   let url = baseURL + 'lat=' + lat + '&lon=' + lon + '&appid='+ apiKey + "&units=imperial&mode=json";
 
   $.get(url).then((data) => {
