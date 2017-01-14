@@ -6,7 +6,8 @@ require('dotenv').config();
 router.get('/', function(req, res, next) {
   res.render('index', {
     title: 'Weather App',
-    apiKey: process.env.KEY
+    apiKey: process.env.KEY,
+    geoApi: process.env.GEOAPI
   });
 });
 

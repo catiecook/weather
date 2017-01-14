@@ -2,12 +2,13 @@
 function locationPromise() {
   return new Promise(function(resolve, reject) {
     console.log("retreiving position.....");
-    navigator.geolocation.getCurrentPosition(resolve, reject);
+    $.post('https://www.googleapis.com/geolocation/v1/geolocate?key=' + geoApi);
   })
 }
 
 locationPromise()
   .then((data)=> {
+    console.log(data);
     if(data) {
       console.log(data);
       let coords = [];
