@@ -9,22 +9,22 @@ var dotenv = require('dotenv').config();
 
 //*******************************
 //http-proxy data
-var httpProxy = require('http-proxy');
 var http = require('http');
 var url = require('url');
 
-
-var options = {
+var httpProxy = require('http-proxy').createServer(function(req, res, proxy) {
+  proxy.proxyRequest(req, res, {
+    host: 'secure.target.host',
+    port: 443,
     target: {
-        https: true
+      https: true
     }
-}
-
-httpProxy.createServer(443, 'secure.target.host', options).listen(8000);
+  })
+}).listen(8080)
 
 
 // Create your proxy server and set the target in the options.
-// httpProxy.createProxyServer({target:'http://localhost:9000'}).listen(8000);
+// DEFAULT BACK TO THIS httpProxy.createProxyServer({target:'http://localhost:9000'}).listen(8000);
 // // Create your target server
 // http.createServer(function (req, res) {
 //   res.writeHead(200, { 'Content-Type': 'text/plain' });
