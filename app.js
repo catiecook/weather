@@ -13,17 +13,27 @@ var httpProxy = require('http-proxy');
 var http = require('http');
 var url = require('url');
 
-// Create your proxy server and set the target in the options.
-httpProxy.createProxyServer({target:'http://localhost:9000'}).listen(8000);
-// Create your target server
-http.createServer(function (req, res) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('request successfully proxied!' + '\n' + JSON.stringify(req.headers, true, 2));
-  res.end();
-}).listen(9000);
 
-console.log("http PROXY server on port 8000");
-console.log("http server on port 9000");
+var options = {
+    target: {
+        https: true
+    }
+}
+
+httpProxy.createServer(443, 'secure.target.host', options).listen(8000);
+
+
+// Create your proxy server and set the target in the options.
+// httpProxy.createProxyServer({target:'http://localhost:9000'}).listen(8000);
+// // Create your target server
+// http.createServer(function (req, res) {
+//   res.writeHead(200, { 'Content-Type': 'text/plain' });
+//   res.write('request successfully proxied!' + '\n' + JSON.stringify(req.headers, true, 2));
+//   res.end();
+// }).listen(9000);
+//
+// console.log("http PROXY server on port 8000");
+// console.log("http server on port 9000");
 
 // function notFound(res) {
 //   res.writeHead(404, "text/plain");
