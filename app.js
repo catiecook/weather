@@ -12,15 +12,18 @@ var dotenv = require('dotenv').config();
 var http = require('http');
 var url = require('url');
 
-var httpProxy = require('http-proxy').createServer(function(req, res, proxy) {
-  proxy.proxyRequest(req, res, {
-    host: 'secure.target.host',
-    port: 443,
-    target: {
-      https: true
-    }
-  })
-}).listen(8080)
+var httpProxy = require('http-proxy')
+
+httpProxy.createProxyServer({
+  target:{
+    https: true
+  },
+  port: 443,
+  headers: {
+    host: '/'
+  }
+}).listen(8011);
+
 
 
 // Create your proxy server and set the target in the options.
