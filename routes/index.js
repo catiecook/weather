@@ -11,12 +11,14 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/:lat/:long', function(req, res, next) {
-  request(`http://api.openweathermap.org/data/2.5/forecast?lat=${req.params.lat}&lon=${req.params.long}&${process.env.apiKey}`,
+router.post('/weather', function(req, res, next) {
+  console.log("in post");
+  request(`http://api.openweathermap.org/data/2.5/forecast?lat=${process.env.LAT}&lon=${process.env.LON}&appid=${process.env.apiKey}`,
     function (error, response, body) {
       if (error) {
         console.log("Error!  Request failed - " + error);
       } else if (!error && response.statusCode === 200) {
+        console.log("response", response);
         res.send(response)
       }
   });

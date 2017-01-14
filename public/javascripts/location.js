@@ -9,7 +9,7 @@ function locationPromise() {
 locationPromise()
   .then((data)=> {
     if(data) {
-      console.log(data);
+      
       let coords = [];
       coords.push({"lat": data.coords.latitude})
       coords.push({"lon": data.coords.longitude})

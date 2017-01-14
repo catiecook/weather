@@ -4,9 +4,10 @@ $('#intro').hide()
 function getWeather(lat, lon) {
   // const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?';
   // let url = baseURL + 'lat=' + lat + '&lon=' + lon + '&appid='+ apiKey + "&units=imperial&mode=json";
-  let url = '/' + lat + '/' + lon;
+  // let url = '/' + lat + '/' + lon;
 
-  $.get('/'+ lat + '/' + lon).then((data) => {
+  $.post('/weather').then((data) => {
+    // console.log("data", data);
     allocateData(data)
   }).catch((err) => {
     console.log(err);
