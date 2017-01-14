@@ -17,6 +17,8 @@
     "http-proxy": "^1.16.2",
     "knex": "^0.12.6",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "sys": "0.0.1",
+    "url": "^0.11.0"
   }
 }
