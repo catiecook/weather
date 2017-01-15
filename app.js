@@ -6,6 +6,26 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv').config();
 
+//*******************************
+
+//http-proxy data
+var http = require('http');
+var url = require('url');
+var https = require('https');
+
+var httpProxy = require('http-proxy')
+httpProxy.createProxyServer({
+  target: {
+    https: true
+  },
+  agent  : https.globalAgent,
+  headers: {
+    host: 'google.com'
+  }
+}).listen(8011);
+
+//*******************************
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
