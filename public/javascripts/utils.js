@@ -15,8 +15,6 @@ function getWeather(lat, long) {
 
 function allocateData(data) {
 
-  console.log("Data", data);
-
   let city = data["city"].name;
   let country = data["city"].country;
 
@@ -24,7 +22,6 @@ function allocateData(data) {
   $('#intro').show().append("for " + city)
 
   let forcast = [];
-
   let counter = 1;
 
   for(let i = 0; i < data["list"].length-1; i++) {
