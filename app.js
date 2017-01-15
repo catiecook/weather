@@ -20,7 +20,7 @@ httpProxy.createProxyServer({
   },
   agent  : https.globalAgent,
   headers: {
-    host: 'google.com'
+    host: process.env.PORT
   }
 }).listen(8011);
 
