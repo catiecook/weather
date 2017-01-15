@@ -17,4 +17,4 @@ _in terminal_
   `nodemon` - this will start the server on the localhost chosen in .env file
 5. open localhost://#### in browser
 
-![https://cloud.githubusercontent.com/assets/15387439/21964853/cdf0f82c-db21-11e6-856a-a9885c5c6e9a.png]
+!(https://cloud.githubusercontent.com/assets/15387439/21964853/cdf0f82c-db21-11e6-856a-a9885c5c6e9a.png)
