@@ -11,19 +11,18 @@ var dotenv = require('dotenv').config();
 //http-proxy data
 var http = require('http');
 var url = require('url');
+var https = require('https');
 
 var httpProxy = require('http-proxy')
-
 httpProxy.createProxyServer({
-  target:{
+  target: {
     https: true
   },
-  port: 443,
+  agent  : https.globalAgent,
   headers: {
-    host: '/'
+    host: 'google.com'
   }
 }).listen(8011);
-
 
 
 // Create your proxy server and set the target in the options.
