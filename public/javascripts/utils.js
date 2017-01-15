@@ -7,7 +7,6 @@ function getWeather(lat, long) {
     lon: long
   }
   $.post('/weather', payload).done((data) => {
-    console.log(data);
     allocateData(data)
   }).fail((err) => {
     console.log(err);
@@ -15,6 +14,8 @@ function getWeather(lat, long) {
 };
 
 function allocateData(data) {
+
+  console.log("Data", data);
 
   let city = data["city"].name;
   let country = data["city"].country;
@@ -104,11 +105,21 @@ function eachDay(data) {
       day5.push(data[i]);
     }
   }
-  dataToScreen(day1);
-  dataToScreen(day2);
-  dataToScreen(day3);
-  dataToScreen(day4);
-  dataToScreen(day5);
+  Promise.all(day1).then((data)=>{
+    dataToScreen(day1);
+  })
+  Promise.all(day2).then((data)=>{
+    dataToScreen(day2);
+  })
+  Promise.all(day3).then((data)=>{
+    dataToScreen(day3);
+  })
+  Promise.all(day4).then((data)=>{
+    dataToScreen(day4);
+  })
+  Promise.all(day5).then((data)=>{
+    dataToScreen(day5);
+  })
 };
 
 function convertDate(unix) {
