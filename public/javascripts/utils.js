@@ -1,15 +1,15 @@
 $('#intro').hide()
 //get weather from geolocation
 
-function getWeather(lat, lon) {
-  // const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?';
-  // let url = baseURL + 'lat=' + lat + '&lon=' + lon + '&appid='+ apiKey + "&units=imperial&mode=json";
-  // let url = '/' + lat + '/' + lon;
-
-  $.post('/weather').then((data) => {
-    // console.log("data", data);
+function getWeather(lat, long) {
+  const payload = {
+    lat: lat,
+    lon: long
+  }
+  $.post('/weather', payload).done((data) => {
+    console.log(data);
     allocateData(data)
-  }).catch((err) => {
+  }).fail((err) => {
     console.log(err);
   })
 };

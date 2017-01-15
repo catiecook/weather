@@ -12,8 +12,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/weather', function(req, res, next) {
-  console.log("in post");
-  request(`http://api.openweathermap.org/data/2.5/forecast?lat=${process.env.LAT}&lon=${process.env.LON}&appid=${process.env.apiKey}`,
+  request(`http://api.openweathermap.org/data/2.5/forecast?lat=${req.params.lat}&lon=${req.params.long}&appid=${process.env.apiKey}`,
     function (error, response, body) {
       if (error) {
         console.log("Error!  Request failed - " + error);
