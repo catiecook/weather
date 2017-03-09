@@ -1,5 +1,4 @@
 //adapted from CodePen by Mario lingemann
-
 var colors = new Array(
   [180, 244, 243],
   [118, 208, 207],

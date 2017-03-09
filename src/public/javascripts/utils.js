@@ -1,13 +1,14 @@
 $('#intro').hide()
 //get weather from geolocation
 
-function getWeather(lat, lon) {
-  const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?';
-  let url = baseURL + 'lat=' + lat + '&lon=' + lon + '&appid='+ apiKey + "&units=imperial&mode=json";
-
-  $.get(url).then((data) => {
+function getWeather(lat, long) {
+  const payload = {
+    lat: lat,
+    lon: long
+  }
+  $.post('/weather', payload).done((data) => {
     allocateData(data)
-  }).catch((err) => {
+  }).fail((err) => {
     console.log(err);
   })
 };
@@ -21,7 +22,6 @@ function allocateData(data) {
   $('#intro').show().append("for " + city)
 
   let forcast = [];
-
   let counter = 1;
 
   for(let i = 0; i < data["list"].length-1; i++) {
@@ -102,11 +102,21 @@ function eachDay(data) {
       day5.push(data[i]);
     }
   }
-  dataToScreen(day1);
-  dataToScreen(day2);
-  dataToScreen(day3);
-  dataToScreen(day4);
-  dataToScreen(day5);
+  Promise.all(day1).then((data)=>{
+    dataToScreen(day1);
+  })
+  Promise.all(day2).then((data)=>{
+    dataToScreen(day2);
+  })
+  Promise.all(day3).then((data)=>{
+    dataToScreen(day3);
+  })
+  Promise.all(day4).then((data)=>{
+    dataToScreen(day4);
+  })
+  Promise.all(day5).then((data)=>{
+    dataToScreen(day5);
+  })
 };
 
 function convertDate(unix) {
