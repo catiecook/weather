@@ -25,5 +25,9 @@
     "gulp-eslint": "^3.0.1",
     "gulp-jshint": "^2.0.4",
     "jshint": "^2.9.4",
+    "request": "^2.79.0",
+    "serve-favicon": "~2.3.0",
+    "sys": "0.0.1",
+    "url": "^0.11.0"
   }
 }
