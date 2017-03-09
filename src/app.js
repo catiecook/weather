@@ -9,7 +9,7 @@ var dotenv = require('dotenv').config();
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var cors = require('cors')
+var cors = require('cors');
 var app = express();
 
 app.use(cors());
